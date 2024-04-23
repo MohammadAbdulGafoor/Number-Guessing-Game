@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 80%;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 5px;
+            width: 80%;
+            max-width: 200px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        #resetBtn {
+            background-color: #f44336;
+            margin-top: 20px;
+        }
+
+        #resetBtn:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Number Guessing Game</h1>
+        <form id="guessForm">
+            <label for="userGuess">Enter your guess (between 1 and 10):</label>
+            <br>
+            <input type="number" id="userGuess" name="userGuess" min="1" max="10" required>
+            <br>
+            <button type="button" onclick="checkGuess()">Guess</button>
+        </form>
+        <button id="resetBtn" onclick="resetGame()">Reset Game</button>
+        <p id="result"></p>
+        <p id="attempts"></p>
+        <p id="incorrectAttempts"></p>
+        <p id="previousNumbers"></p>
+    </div>
+
+    <script>
+        let secretNumber = Math.floor(Math.random() * 10) + 1;
+        let attempts = 0;
+        let incorrectAttempts = [];
+        let previousNumbers = [];
+
+        function checkGuess() {
+            let guess = parseInt(document.getElementById('userGuess').value);
+            attempts++;
+            previousNumbers.push(guess);
+
+            if (guess === secretNumber) {
+                document.getElementById('result').innerText = `Congratulations! You guessed the correct number: ${secretNumber}`;
+                document.getElementById('attempts').innerText = `Total number of attempts: ${attempts}`;
+                document.getElementById('incorrectAttempts').innerText = `Incorrect attempts: ${incorrectAttempts.length}`;
+                document.getElementById('previousNumbers').innerText = `Previous numbers: ${previousNumbers.join(', ')}`;
+            } else {
+                incorrectAttempts.push(guess);
+                document.getElementById('result').innerText = "Incorrect guess. Try again!";
+                document.getElementById('incorrectAttempts').innerText = `Incorrect attempts: ${incorrectAttempts.length}`;
+                document.getElementById('previousNumbers').innerText = `Previous numbers: ${previousNumbers.join(', ')}`;
+            }
+        }
+
+        function resetGame() {
+            secretNumber = Math.floor(Math.random() * 10) + 1;
+            attempts = 0;
+            incorrectAttempts = [];
+            previousNumbers = [];
+            document.getElementById('result').innerText = "";
+            document.getElementById('attempts').innerText = "";
+            document.getElementById('incorrectAttempts').innerText = "";
+            document.getElementById('previousNumbers').innerText = "";
+            document.getElementById('userGuess').value = "";
+        }
+    </script>
+</body>
+</html>
